@@ -1,0 +1,54 @@
+{
+  "name": "js-walletconnect-core",
+  "version": "0.0.1-beta.13",
+  "description": "Core Javascript WalletConnect Library",
+  "main": "lib/js-walletconnect-core.js",
+  "scripts": {
+    "build": "webpack --env dev && webpack --env build && npm run test",
+    "dev": "webpack --progress --colors --watch --env dev",
+    "test":
+      "mocha --require babel-core/register --require idempotent-babel-polyfill --colors ./test/*.spec.js",
+    "test:watch":
+      "mocha --require babel-core/register --require idempotent-babel-polyfill --colors -w ./test/*.spec.js",
+    "lint": "eslint src/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/walletconnect/js-walletconnect-core.git"
+  },
+  "keywords": ["javascript", "core", "walletconnect"],
+  "author": "Jaynti Kanani <jdkanani@gmail.com>",
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/walletconnect/js-walletconnect-core/issues"
+  },
+  "homepage": "https://github.com/walletconnect/js-walletconnect-core",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
+    "babel-loader": "^7.1.4",
+    "babel-polyfill": "^6.26.0",
+    "chai": "^4.1.2",
+    "eslint": "^4.13.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "mocha": "^4.0.1",
+    "node-fetch": "^2.1.2",
+    "webpack": "^3.10.0",
+    "yargs": "^10.0.3"
+  },
+  "dependencies": {
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "idempotent-babel-polyfill": "^0.1.1",
+    "safe-buffer": "^5.1.1",
+    "xhr2": "^0.1.4"
+  }
+}
