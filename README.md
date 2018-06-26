@@ -6,7 +6,7 @@ To use WalletConnect on Dapp on Web go to: https://github.com/WalletConnect/wall
 
 To use WalletConnect on React-Native wallet got to: https://github.com/WalletConnect/rn-walletconnect-wallet
 
-You can read more about WalletConnect protocol here: http://walletconnect.org/
+You can read more about WalletConnect standard here: http://walletconnect.org/
 
 ## Develop
 
