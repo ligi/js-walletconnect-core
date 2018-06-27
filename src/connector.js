@@ -1,5 +1,6 @@
 import crypto from 'crypto'
 import {Buffer} from 'buffer'
+import Ajv from 'ajv'
 
 import {generateKey, handleResponse} from './utils'
 
@@ -75,7 +76,42 @@ export default class Connector {
     this._sessionId = value
   }
 
+  get typedDataSchema() {
+    // From https://github.com/ethereum/EIPs/blob/master/EIPS/eip-712.md#specification-of-the-eth_signtypeddata-json-rpc
+    return {
+      type: 'object',
+      properties: {
+        types: {
+          type: 'object',
+          additionalProperties: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                name: {type: 'string'},
+                type: {type: 'string'}
+              },
+              required: ['name', 'type']
+            }
+          }
+        },
+        primaryType: {type: 'string'},
+        domain: {type: 'object'},
+        message: {type: 'object'}
+      }
+    }
+  }
+
   async encrypt(data, customIv = null) {
+    const ajv = new Ajv()
+    const valid = ajv.validate(this.typedDataSchema, data)
+
+    if (!valid) {
+      throw new Error(
+        'Data must follow the EIP712 standard. ' + ajv.errorsText()
+      )
+    }
+
     const key = this._sharedKey
     if (!key) {
       throw new Error(
