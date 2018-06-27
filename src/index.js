@@ -2,6 +2,6 @@ import 'idempotent-babel-polyfill'
 
 import Connector from './connector'
 import Listener from './listener'
-import { generateKey, handleResponse } from './utils'
+import generateKey from './generateKey'
 
-export { Connector, Listener, generateKey, handleResponse }
+export { Connector, Listener, generateKey }
