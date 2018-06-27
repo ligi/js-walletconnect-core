@@ -1,22 +1,24 @@
 {
   "name": "js-walletconnect-core",
-  "version": "0.0.1-beta.13",
+  "version": "0.0.1-beta.14",
   "description": "Core Javascript WalletConnect Library",
   "main": "lib/js-walletconnect-core.js",
   "scripts": {
     "build": "webpack --env dev && webpack --env build && npm run test",
     "dev": "webpack --progress --colors --watch --env dev",
-    "test":
-      "mocha --require babel-core/register --require idempotent-babel-polyfill --colors ./test/*.spec.js",
-    "test:watch":
-      "mocha --require babel-core/register --require idempotent-babel-polyfill --colors -w ./test/*.spec.js",
+    "test": "mocha --require babel-core/register --require idempotent-babel-polyfill --colors ./test/*.spec.js",
+    "test:watch": "mocha --require babel-core/register --require idempotent-babel-polyfill --colors -w ./test/*.spec.js",
     "lint": "eslint src/"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/walletconnect/js-walletconnect-core.git"
   },
-  "keywords": ["javascript", "core", "walletconnect"],
+  "keywords": [
+    "javascript",
+    "core",
+    "walletconnect"
+  ],
   "author": "Jaynti Kanani <jdkanani@gmail.com>",
   "license": "GPL",
   "bugs": {
