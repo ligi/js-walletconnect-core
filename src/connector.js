@@ -1,17 +1,17 @@
 import crypto from 'crypto'
-import {Buffer} from 'buffer'
+import { Buffer } from 'buffer'
 
-import {generateKey, handleResponse} from './utils'
+import { generateKey, handleResponse } from './utils'
 
 const AES_ALGORITHM = 'AES-256-CBC'
 const HMAC_ALGORITHM = 'SHA256'
 
 export default class Connector {
-  constructor(url, options = {}) {
-    const {sessionId, sharedKey, dappName} = options
+  constructor(options = {}) {
+    const { bridgeUrl, sessionId, sharedKey, dappName } = options
 
     // set bridge url, sessionId and key
-    this.bridgeURL = url
+    this.bridgeUrl = bridgeUrl
     this.sessionId = sessionId
     this.sharedKey = sharedKey
     this.dappName = dappName
@@ -20,20 +20,20 @@ export default class Connector {
     this._counter = 0
   }
 
-  get bridgeURL() {
-    return this._bridgeURL
+  get bridgeUrl() {
+    return this._bridgeUrl
   }
 
-  set bridgeURL(value) {
-    if (this.bridgeURL) {
-      throw new Error('bridgeURL already set')
+  set bridgeUrl(value) {
+    if (this.bridgeUrl) {
+      throw new Error('bridgeUrl already set')
     }
 
     if (!value) {
       return
     }
 
-    this._bridgeURL = value
+    this._bridgeUrl = value
   }
 
   get sharedKey() {
@@ -119,7 +119,7 @@ export default class Connector {
     }
   }
 
-  decrypt({data, hmac, nonce, iv}) {
+  decrypt({ data, hmac, nonce, iv }) {
     const key = this._sharedKey
     const ivBuffer = Buffer.from(iv, 'hex')
     const hmacBuffer = Buffer.from(hmac, 'hex')
@@ -148,7 +148,7 @@ export default class Connector {
   //
 
   async _getEncryptedData(url) {
-    const res = await fetch(`${this.bridgeURL}${url}`, {
+    const res = await fetch(`${this.bridgeUrl}${url}`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
