@@ -1,7 +1,7 @@
 import crypto from 'crypto'
 import { Buffer } from 'buffer'
 
-import { generateKey, handleResponse } from './utils'
+import generateKey from './generateKey'
 
 const AES_ALGORITHM = 'AES-256-CBC'
 const HMAC_ALGORITHM = 'SHA256'
@@ -161,7 +161,9 @@ export default class Connector {
       return null
     }
 
-    handleResponse(res)
+    if (res.status >= 400) {
+      throw new Error(res.statusText)
+    }
 
     // get body
     const body = await res.json()
