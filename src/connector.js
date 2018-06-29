@@ -89,7 +89,7 @@ export default class Connector {
               type: 'object',
               properties: {
                 name: {type: 'string'},
-                type: {type: 'string'}
+                type: {type: 'string', enum: this.solidityTypes}
               },
               required: ['name', 'type']
             }
@@ -102,9 +102,9 @@ export default class Connector {
     }
   }
 
-  async encrypt(data, customIv = null) {
+  async encryptMessage(typedData, customIv = null) {
     const ajv = new Ajv()
-    const valid = ajv.validate(this.typedDataSchema, data)
+    const valid = ajv.validate(this.typedDataSchema, typedData)
 
     if (!valid) {
       throw new Error(
@@ -112,6 +112,10 @@ export default class Connector {
       )
     }
 
+    return this.encrypt(typedData, customIv)
+  }
+
+  async encrypt(data, customIv = null) {
     const key = this._sharedKey
     if (!key) {
       throw new Error(
@@ -204,5 +208,14 @@ export default class Connector {
 
     // decrypt data
     return this.decrypt(body.data).data
+  }
+
+  get solidityTypes() {
+    const types = ['bool', 'address', 'int', 'uint', 'string', 'byte']
+    const ints = Array.from(new Array(32)).map((e, index) => `int${(index + 1) * 8}`)
+    const uints = Array.from(new Array(32)).map((e, index) => `uint${(index + 1) * 8}`)
+    const bytes = Array.from(new Array(32)).map((e, index) => `bytes${(index + 1)}`)
+
+    return types.concat(ints).concat(uints).concat(bytes)
   }
 }
