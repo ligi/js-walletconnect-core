@@ -1,6 +1,6 @@
 {
   "name": "js-walletconnect-core",
-  "version": "0.0.1-beta.14",
+  "version": "0.0.1-beta.15",
   "description": "Core Javascript WalletConnect Library",
   "main": "lib/js-walletconnect-core.js",
   "scripts": {
@@ -46,6 +46,7 @@
     "yargs": "^10.0.3"
   },
   "dependencies": {
+    "ajv": "^6.5.1",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
