@@ -11,13 +11,11 @@ export default class Connector {
   constructor(options = {}) {
     const { bridgeUrl, sessionId, sharedKey, dappName } = options
 
-    // set bridge url, sessionId and key
     this.bridgeUrl = bridgeUrl
     this.sessionId = sessionId
     this.sharedKey = sharedKey
     this.dappName = dappName
 
-    // counter
     this._counter = 0
   }
 

@@ -19,7 +19,6 @@
     "core",
     "walletconnect"
   ],
-  "author": "Jaynti Kanani <jdkanani@gmail.com>",
   "license": "GPL",
   "bugs": {
     "url": "https://github.com/walletconnect/js-walletconnect-core/issues"
