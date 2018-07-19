@@ -3,19 +3,22 @@ import { Buffer } from 'buffer'
 import Ajv from 'ajv'
 
 import generateKey from './generateKey'
+import URLTransactionRequest from './url_transaction_request'
 
 const AES_ALGORITHM = 'AES-256-CBC'
 const HMAC_ALGORITHM = 'SHA256'
 
 export default class Connector {
   constructor(options = {}) {
-    const { bridgeUrl, sessionId, sharedKey, dappName } = options
+    const { bridgeUrl, sessionId, sharedKey, dappName, chainId } = options
 
     // set bridge url, sessionId and key
     this.bridgeUrl = bridgeUrl
     this.sessionId = sessionId
     this.sharedKey = sharedKey
     this.dappName = dappName
+    // 1 = mainnet
+    this.chainId = chainId || 1
 
     // counter
     this._counter = 0
@@ -177,6 +180,24 @@ export default class Connector {
     const decryptor = crypto.createDecipheriv(AES_ALGORITHM, key, ivBuffer)
     const decryptedText = decryptor.update(data, 'hex', 'utf8')
     return JSON.parse(decryptedText + decryptor.final('utf8'))
+  }
+
+  // EIP681: http://eips.ethereum.org/EIPS/eip-681
+  parseTransactionRequest(url) {
+    const res = URLTransactionRequest.decode(url)
+    if (res.chain_id !== this.chainId) {
+      throw new Error('chain_id does not match')
+    }
+
+    return res
+  }
+
+  // EIP681: http://eips.ethereum.org/EIPS/eip-681
+  // tx.target_address is mandatory
+  stringifyTransactionRequest(tx) {
+    // overwrite/add chain_id
+    tx.chain_id = this.chainId
+    return URLTransactionRequest.encode(tx)
   }
 
   //
