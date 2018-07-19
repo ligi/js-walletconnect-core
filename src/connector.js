@@ -12,7 +12,6 @@ export default class Connector {
   constructor(options = {}) {
     const { bridgeUrl, sessionId, sharedKey, dappName, chainId } = options
 
-    // set bridge url, sessionId and key
     this.bridgeUrl = bridgeUrl
     this.sessionId = sessionId
     this.sharedKey = sharedKey
@@ -20,7 +19,6 @@ export default class Connector {
     // 1 = mainnet
     this.chainId = chainId || 1
 
-    // counter
     this._counter = 0
   }
 
