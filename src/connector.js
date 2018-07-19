@@ -3,18 +3,21 @@ import { Buffer } from 'buffer'
 import Ajv from 'ajv'
 
 import generateKey from './generateKey'
+import URLTransactionRequest from './url_transaction_request'
 
 const AES_ALGORITHM = 'AES-256-CBC'
 const HMAC_ALGORITHM = 'SHA256'
 
 export default class Connector {
   constructor(options = {}) {
-    const { bridgeUrl, sessionId, sharedKey, dappName } = options
+    const { bridgeUrl, sessionId, sharedKey, dappName, chainId } = options
 
     this.bridgeUrl = bridgeUrl
     this.sessionId = sessionId
     this.sharedKey = sharedKey
     this.dappName = dappName
+    // 1 = mainnet
+    this.chainId = chainId || 1
 
     this._counter = 0
   }
@@ -177,6 +180,24 @@ export default class Connector {
     return JSON.parse(decryptedText + decryptor.final('utf8'))
   }
 
+  // EIP681: http://eips.ethereum.org/EIPS/eip-681
+  parseTransactionRequest(url) {
+    const res = URLTransactionRequest.decode(url)
+    if (res.chain_id !== this.chainId) {
+      throw new Error('chain_id does not match')
+    }
+
+    return res
+  }
+
+  // EIP681: http://eips.ethereum.org/EIPS/eip-681
+  // tx.target_address is mandatory
+  stringifyTransactionRequest(tx) {
+    // overwrite/add chain_id
+    tx.chain_id = this.chainId
+    return URLTransactionRequest.encode(tx)
+  }
+
   //
   // Private methods
   //
@@ -185,7 +206,7 @@ export default class Connector {
   // Get encryptedData remote data
   //
 
-  async _getEncryptedData(url) {
+  async _getEncryptedData(url, withTtl = false) {
     const res = await fetch(`${this.bridgeUrl}${url}`, {
       method: 'GET',
       headers: {
@@ -206,8 +227,12 @@ export default class Connector {
     // get body
     const body = await res.json()
 
-    // decrypt data
-    return this.decrypt(body.data).data
+    const decryptedData = this.decrypt(body.data).data
+    if (withTtl) {
+      return { data: decryptedData, ttl_in_seconds: body.ttl_in_seconds }
+    } else {
+      return decryptedData
+    }
   }
 
   get solidityTypes() {
