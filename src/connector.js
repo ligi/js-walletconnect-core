@@ -229,7 +229,7 @@ export default class Connector {
 
     const decryptedData = this.decrypt(body.data).data
     if (withTtl) {
-      return { data: decryptedData, ttlInSeconds: body.ttl_in_seconds }
+      return { data: decryptedData, ttlInSeconds: body.ttlInSeconds }
     } else {
       return decryptedData
     }

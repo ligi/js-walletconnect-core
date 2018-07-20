@@ -1,6 +1,6 @@
 {
   "name": "js-walletconnect-core",
-  "version": "0.0.1-beta.19",
+  "version": "0.0.1-beta.21",
   "description": "Core Javascript WalletConnect Library",
   "main": "lib/js-walletconnect-core.js",
   "scripts": {
