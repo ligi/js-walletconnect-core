@@ -120,7 +120,7 @@ export default class Connector {
     const key = this._sharedKey
     if (!key) {
       throw new Error(
-        'Shared key is required. Please use `sharedKey` before using encryption'
+        'Shared key is required. Please set `sharedKey` before using encryption'
       )
     }
 
